@@ -1,8 +1,6 @@
-use std::os::raw::c_char;
-
 pub type NodeIndex = usize;
 pub type TransitionIndex = usize;
-
+/*
 pub trait FSM {
     fn new(nameFSM: &str) -> SimpleFiniteStateMachine;
     fn addNode(&mut self, name: i32) -> NodeIndex;
@@ -12,36 +10,66 @@ pub trait FSM {
     fn existTransition(&mut self, transitionTest: TransitionIndex, c_char: char) -> bool;
     fn displayTransition(&self);
     fn displayFSM(&self);
-    fn process_fsm(&mut self, nodeIndex: NodeIndex, word: &str) -> Vec<(usize, usize)>;
+    //fn process_fsm(&mut self, nodeIndex: NodeIndex, word: &str) -> Vec<(usize, usize)>;
     fn print_vec( vec : Vec<Vec<&str>>);
 }
 
-struct NamedElement{
-    name: String
-}
-
 pub struct SimpleFiniteStateMachine {
-    nameFSM: String,
-    transitions: Vec<Transition>,
-    nodes: Vec<Node>
+    name_fsm: String,
+    transitions:  Box<T>::new<Vec<dyn Transition>>,
+    nodes: Vec<dyn Node>
+}*/
+
+pub trait NamedElement{
+    fn get_name(self) -> String;
 }
 
-struct Node {
+pub trait Node : NamedElement {
+
+}
+struct NodeImpl {
+    name_node: String,
     pub name: i32,
-    outputTransition: Vec<TransitionIndex>,
-    inputTransition: Vec<TransitionIndex>
+    output_transition: Vec<TransitionIndex>,
+    input_transition: Vec<TransitionIndex>
 }
 
-struct Transition {
+impl NamedElement for NodeImpl {
+    fn get_name(self) -> String {
+        self.name_node
+    }
+
+
+}
+
+impl Node for NodeImpl {
+
+}
+
+pub trait Transition : NamedElement {
+
+}
+struct TransitionImpl {
+    name_transition: String,
     pub letter: char,
-    outputNodes: NodeIndex,
-    inputNodes: NodeIndex,
+    output_nodes: NodeIndex,
+    input_nodes: NodeIndex,
 }
 
+impl NamedElement for TransitionImpl {
+    fn get_name(self) -> String {
+        self.name_transition
+    }
+}
+
+impl Transition for TransitionImpl {
+
+}
+/*
 impl FSM for SimpleFiniteStateMachine {
-    fn new(nameFSM: &str) -> SimpleFiniteStateMachine {
+    fn new(name_fsm: &str) -> SimpleFiniteStateMachine {
         return SimpleFiniteStateMachine {
-            nameFSM: nameFSM.into(),
+            name_fsm: name_fsm.into(),
             transitions: Vec::new(),
             nodes: Vec::new()
         };
@@ -49,25 +77,25 @@ impl FSM for SimpleFiniteStateMachine {
 
     fn addNode(&mut self, name: i32) -> NodeIndex {
         let index: usize = self.nodes.len();
-        self.nodes.push(Node {
+        self.nodes.push(NodeImpl {
             name,
-            outputTransition: Vec::new(),
-            inputTransition: Vec::new(),
+            output_transition: Vec::new(),
+            input_transition: Vec::new(),
         });
         return index;
     }
 
-    fn addTransition(&mut self, letter: char, inputNodes: NodeIndex, outputNodes: NodeIndex) -> TransitionIndex {
+    fn addTransition(&mut self, letter: char, input_nodes: NodeIndex, output_nodes: NodeIndex) -> TransitionIndex {
         let index: usize = self.transitions.len();
         let new_trans = Transition {
             letter,
-            outputNodes,
-            inputNodes,
+            output_nodes,
+            input_nodes,
         };
         self.transitions.push(new_trans);
 
-        self.nodes[inputNodes].outputTransition.push(index);
-        self.nodes[outputNodes].inputTransition.push(index);
+        self.nodes[input_nodes].output_transition.push(index);
+        self.nodes[output_nodes].input_transition.push(index);
         return index;
     }
 
@@ -79,7 +107,7 @@ impl FSM for SimpleFiniteStateMachine {
     fn displayTransition(&self) {
         println!("\n");
         for transitionNumber in &self.transitions {
-            println!("{} {} {} {} {}", self.nodes[transitionNumber.inputNodes].name, "-", transitionNumber.letter, "->", self.nodes[transitionNumber.outputNodes].name);
+            println!("{} {} {} {} {}", self.nodes[transitionNumber.input_nodes].name, "-", transitionNumber.letter, "->", self.nodes[transitionNumber.output_nodes].name);
         }
     }
 
@@ -105,13 +133,13 @@ impl FSM for SimpleFiniteStateMachine {
         let mut state = 0;
 
         for (iterator_word, &char) in octets.iter().enumerate() {
-            let char_trans = self.transitions[self.nodes[nodeIndex].outputTransition[iterator_trans]].letter;
+            let char_trans = self.transitions[self.nodes[nodeIndex].output_transition[iterator_trans]].letter;
 
-            while iterator_trans < self.nodes[nodeIndex].outputTransition.len() && char_trans != char as char {
+            while iterator_trans < self.nodes[nodeIndex].output_transition.len() && char_trans != char as char {
                 iterator_trans += 1;
             }
-            if self.transitions[iterator_trans].outputNodes < self.nodes.len() {
-                vec_edge.push((state,self.transitions[iterator_trans].outputNodes));
+            if self.transitions[iterator_trans].output_nodes < self.nodes.len() {
+                vec_edge.push((state,self.transitions[iterator_trans].output_nodes));
                 state = iterator_trans;
                 iterator_trans = 0;
             }
@@ -142,25 +170,15 @@ impl FSM for SimpleFiniteStateMachine {
         todo!()
     }
 
-    fn removeTransition(&mut self, letter: char, inputNodes: NodeIndex, outputNodes: NodeIndex) -> TransitionIndex {
+    fn removeTransition(&mut self, letter: char, input_nodes: NodeIndex, output_nodes: NodeIndex) -> TransitionIndex {
         todo!()
     }
 }
-/*
-       for edge_index in &self.transitions[trans_index].input_edges {
-            let place_index = &self.edges[*edge_index].place;
-            self.places[*place_index].tokens -= &self.edges[*edge_index].weight;
-        }
-        for edge_index in &self.transitions[trans_index].output_edges {
-            let place_index = &self.edges[*edge_index].place;
-            self.places[*place_index].tokens += &self.edges[*edge_index].weight;
-        }
-    }*/
 
 
 
 fn main() {
-
+/*
     let mut test = SimpleFiniteStateMachine::new("Test");
     let name = 0;
     let name2 = 1;
@@ -182,5 +200,7 @@ fn main() {
     let lenght = result.len();
     print!("Taille du chemin pour ce mot.");
     print!("{}",lenght);
-    dbg!(result);
-}
+    dbg!(result);*/
+} */
+
+fn main() {}
