@@ -1,5 +1,6 @@
 pub type NodeIndex = usize;
 pub type TransitionIndex = usize;
+
 /*
 pub trait FSM {
     fn new(nameFSM: &str) -> SimpleFiniteStateMachine;
@@ -25,11 +26,12 @@ pub trait NamedElement{
 }
 
 pub trait Node : NamedElement {
-
+    fn new(nameNode: &str,output_transition: Vec<TransitionIndex>,input_transition: Vec<TransitionIndex> ) -> NodeImpl;
+    fn get_name(self) -> String;
+    fn get_node(self) -> NodeImpl;
 }
-struct NodeImpl {
+pub struct NodeImpl {
     name_node: String,
-    pub name: i32,
     output_transition: Vec<TransitionIndex>,
     input_transition: Vec<TransitionIndex>
 }
@@ -43,14 +45,27 @@ impl NamedElement for NodeImpl {
 }
 
 impl Node for NodeImpl {
+    fn new(nameNode: &str, output_transition: Vec<TransitionIndex>, input_transition: Vec<TransitionIndex>) -> NodeImpl {
+        todo!()
+    }
 
+    fn get_name(self) -> String {
+        todo!()
+    }
+
+    fn get_node(self) -> NodeImpl {
+        todo!()
+    }
 }
 
 pub trait Transition : NamedElement {
+    fn new(name_transition: &str,letter: char,output_nodes: NodeIndex, input_nodes: NodeIndex) -> TransitionImpl;
+    fn get_name(self) -> String;
+    fn get_node(self) -> TransitionImpl;
 
 }
-struct TransitionImpl {
-    name_transition: String,
+pub struct TransitionImpl {
+    pub name_transition: String,
     pub letter: char,
     output_nodes: NodeIndex,
     input_nodes: NodeIndex,
@@ -63,7 +78,17 @@ impl NamedElement for TransitionImpl {
 }
 
 impl Transition for TransitionImpl {
+    fn new(name_transition: &str, letter: char, output_nodes: NodeIndex, input_nodes: NodeIndex) -> TransitionImpl {
+        todo!()
+    }
 
+    fn get_name(self) -> String {
+        todo!()
+    }
+
+    fn get_node(self) -> TransitionImpl {
+        todo!()
+    }
 }
 /*
 impl FSM for SimpleFiniteStateMachine {
